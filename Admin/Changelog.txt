@@ -1,0 +1,281 @@
+﻿
+-----------------------------------------------------------------------------
+Rev_1_035      02-APR-2016
+-----------------------------------------------------------------------------
+
+Port to Visual Studio 2015 Community Edition.
+
+First version on GitHub.
+
+-----------------------------------------------------------------------------
+Rev_1_034      13-APR-2013
+-----------------------------------------------------------------------------
+
+Bug-fix: the TimedCheckForUpdates method runs every five seconds, and was
+querying the database to refresh the stats panel every time around - Task 
+Manager was showing a lot of unnecessary read operations. Now, the stats
+panel is only updated when new job emails arrive.
+
+-----------------------------------------------------------------------------
+Rev_1_033      03-MAR-2012
+-----------------------------------------------------------------------------
+
+Jobsite emails were not always processed properly - now recognise a tag of
+either "TITLE" or "JOB TITLE".
+
+-----------------------------------------------------------------------------
+Rev_1_032      05-FEB-2012
+-----------------------------------------------------------------------------
+
+The Job Report form would occasionally show all text in green - this would
+then stick until the Job Report form was cancelled. Now resolved.
+
+-----------------------------------------------------------------------------
+Rev_1_031      17-DEC-2011
+-----------------------------------------------------------------------------
+
+[1] Removed the delay in database initialisation - this was to give the MySQL
+	server a chance to start when Windows starts, unnecessary for Sqlite.
+
+[2] Maintenance facility added, allowing deletion of jobs beyond a selected
+	age.
+
+-----------------------------------------------------------------------------
+Rev_1_030      17-DEC-2011
+-----------------------------------------------------------------------------
+
+Bug-fix: for some reason, when Dylys logged into her account and collected
+email, the job temporary files were created without access rights for the
+steelworks account. JobMon crashed with "Access Denied". It now handles the
+exception in a controlled fashion.
+
+-----------------------------------------------------------------------------
+Rev_1_029      19-NOV-2011
+-----------------------------------------------------------------------------
+
+Bug-fix: crash when processing IT Job Board job.
+
+-----------------------------------------------------------------------------
+Rev_1_028      06-NOV-2011
+-----------------------------------------------------------------------------
+
+Get JobMon building with Sqlite.Net 1.0.66.
+
+-----------------------------------------------------------------------------
+Rev_1_027      02-NOV-2011
+-----------------------------------------------------------------------------
+
+Set up the JobMon Publish Wizard for easy installation. Outstanding: requires
+Sqlite3.dll, but the Publish Wizard does not install it.
+
+-----------------------------------------------------------------------------
+Rev_1_026      30-OCT-2011
+-----------------------------------------------------------------------------
+
+The Report form now has radio buttons offering selection between new (unread)
+jobs, interesting jobs, and all jobs for the specified date.
+
+-----------------------------------------------------------------------------
+Rev_1_025      29-OCT-2011
+-----------------------------------------------------------------------------
+
+Main form now displays count of total jobs in database, and number of unread
+jobs in the database.
+
+Outstanding: the Report form should allow only unread jobs to be displayed,
+or only interesting jobs to be displayed.
+
+-----------------------------------------------------------------------------
+Rev_1_024      23-SEP-2011
+-----------------------------------------------------------------------------
+
+Bug-fix: crash when processing JobSite email because it was parsing lines of
+the form <tag>: <value> and would index the line beyond the colon to identify
+the value. An email was found in which some tags had no value.
+
+-----------------------------------------------------------------------------
+Rev_1_023      06-SEP-2011
+-----------------------------------------------------------------------------
+
+JobSite now supported.
+
+-----------------------------------------------------------------------------
+Rev_1_022      29-AUG-2011
+-----------------------------------------------------------------------------
+
+IT Job Board reinstated. Code updated to process this email properly.
+
+-----------------------------------------------------------------------------
+Rev_1_021      07-JUL-2011
+-----------------------------------------------------------------------------
+
+Bug-fix: failed to recognise correct duplicate job and came to a halt.
+
+-----------------------------------------------------------------------------
+Rev_1_020      25-JUN-2011
+-----------------------------------------------------------------------------
+
+Now handles TotalJobs jobs.
+
+-----------------------------------------------------------------------------
+Rev_1_019      31-MAR-2011
+-----------------------------------------------------------------------------
+
+[1] Rebuilt with Visual Studio 2010 instead of 2008.
+
+[2] Uses Microsoft Speech API to announce the good jobs.
+
+[3] Checks HTML links to identify duplicate jobs, before comparing text as
+	previously.
+
+-----------------------------------------------------------------------------
+Rev_1_018      20-MAR-2011
+-----------------------------------------------------------------------------
+
+Bug-fix: Filtering out of duplicate jobs was not working - was not comparing
+like-for-like job summaries.
+
+-----------------------------------------------------------------------------
+Rev_1_017      23-JAN-2011
+-----------------------------------------------------------------------------
+
+JobMon bug-fix: Add/Delete filter buttons were affecting the on-screen list 
+box, but not the database - now resolved.
+
+-----------------------------------------------------------------------------
+Rev_1_016      15-JAN-2011
+-----------------------------------------------------------------------------
+
+Filter buttons on the JobReport form are now active.
+
+-----------------------------------------------------------------------------
+Rev_1_015      12-JAN-2011
+-----------------------------------------------------------------------------
+
+JobMon bug-fix: the JobDatabaseSqlite AlreadySeen method failed when there
+were records in the Jobs table potentially matching the new job.
+
+-----------------------------------------------------------------------------
+Rev_1_014      09-JAN-2011
+-----------------------------------------------------------------------------
+
+The MySQL Jobs table specified default values for some columns, which had not
+been carried over to the Sqlite database. It was easier to explicitly
+populate these fields from the JobDatabase class than to rebuild the Sqlite
+database.
+
+-----------------------------------------------------------------------------
+Rev_1_013      09-JAN-2011
+-----------------------------------------------------------------------------
+
+Reversed the Rev_1_012 changes, as the base class and derived class were
+quite messy. Implemented a JobDatabaseSqlite class without using inheritance.
+This works when reading existing jobs from the database.
+
+Outstanding: not yet tested when processing new jobs.
+
+-----------------------------------------------------------------------------
+Rev_1_012      08-JAN-2011
+-----------------------------------------------------------------------------
+
+JobDatabase class is now a base class with the new MySqlJobDatabase class 
+derived from it. This is a stepping stone towards a SqliteJobDatabase class.
+
+-----------------------------------------------------------------------------
+Rev_1_011      31-DEC-2010
+-----------------------------------------------------------------------------
+
+JobMon: resolved reason for Rev_1_009 initial delay not working well -
+database was opened in the constructor and then again on the first clock
+tick. Now it only happens on the first clock tick.
+
+-----------------------------------------------------------------------------
+Rev_1_010      30-DEC-2010
+-----------------------------------------------------------------------------
+
+JobMon bug-fix: Rev_1_009 crashes whilst processing emails due to an attempt
+to open a database connection twice in succession.
+
+-----------------------------------------------------------------------------
+Rev_1_009      28-DEC-2010
+-----------------------------------------------------------------------------
+
+JobMon: resolve potential exception on start-up. If the program started 
+before the MySQL service is running, it attempted to open a database
+connection and threw an exception. It now handles the exception, and also
+attempts to delay the initial opening by 5 seconds - this does not seem to
+work very well.
+
+-----------------------------------------------------------------------------
+Rev_1_008      27-DEC-2010
+-----------------------------------------------------------------------------
+
+JobMon report now shows a summary text box with good words in green and bad
+words in red.
+
+Outstanding: Filter buttons are latent.
+
+-----------------------------------------------------------------------------
+Rev_1_007      26-DEC-2010
+-----------------------------------------------------------------------------
+
+JobMon reporting form updates:
+[1] DatePicker now functional
+[2] Interesting checkbox now functional
+
+Outstanding:
+1. Summary text box is a rich text box but styles are not exploited
+2. Filter buttons are latent
+
+-----------------------------------------------------------------------------
+Rev_1_006      24-DEC-2010
+-----------------------------------------------------------------------------
+
+JobMon now features a Report button which shows the Details form to allow
+navigation through jobs for the selected date. Outstanding:
+1. DatePicker is latent: should use to requery the database
+2. Summary text box is a rich text box but styles are not exploited
+3. Filter buttons are latent
+4. Interesting checkbox is latent
+
+-----------------------------------------------------------------------------
+Rev_1_005      24-DEC-2010
+-----------------------------------------------------------------------------
+
+Rev_1_004 only processed JobServe jobs. This version also processes CW Jobs.
+
+-----------------------------------------------------------------------------
+Rev_1_004      24-DEC-2010
+-----------------------------------------------------------------------------
+
+[1] JobMon now updates the Filters table at the end of a run.
+[2] Job links are stored in the Jobs table and the Detail table: this
+	provides an alternative to following the link and parsing the HTML. The
+	Detail table is populated for compatibility with the old Perl Job Report,
+	but ultimately can be deprecated.
+[3] The web control Form has been disabled: too annoying in its current
+	state.
+
+-----------------------------------------------------------------------------
+Rev_1_003      23-DEC-2010
+-----------------------------------------------------------------------------
+
+JobMon now displays a form with a WebControl for each good job. This is not
+satisfactory long term - although it might be in JobReport: to display only
+the summary unless the user clicks to view the full web page.
+
+-----------------------------------------------------------------------------
+Rev_1_002      23-DEC-2010
+-----------------------------------------------------------------------------
+
+The third text box in the JobMon form now shows a trace of how each job is
+assessed.
+
+-----------------------------------------------------------------------------
+Rev_1_001      23-DEC-2010
+-----------------------------------------------------------------------------
+
+First version in CVS: JobMon processes JobServe text file but does not follow
+link to get web page details.
+
+-----------------------------------------------------------------------------

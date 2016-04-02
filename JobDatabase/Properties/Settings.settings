@@ -1,0 +1,21 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="JobDatabase.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="MySqlServer" Type="System.String" Scope="User">
+      <Value Profile="(Default)">localhost</Value>
+    </Setting>
+    <Setting Name="MySqlDatabase" Type="System.String" Scope="User">
+      <Value Profile="(Default)">jobads</Value>
+    </Setting>
+    <Setting Name="MySqlUsername" Type="System.String" Scope="User">
+      <Value Profile="(Default)">graham</Value>
+    </Setting>
+    <Setting Name="MySqlPassword" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="SqlitePath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">C:\Users\graha\Documents\jobs\jobs.sqlite</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
