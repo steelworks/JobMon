@@ -5,5 +5,16 @@
     <Setting Name="WorkingFolder" Type="System.String" Scope="User">
       <Value Profile="(Default)">C:\Users\graha\Documents\</Value>
     </Setting>
+    <Setting Name="RssFeeds" Type="System.Collections.Specialized.StringCollection" Scope="User">
+      <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+  &lt;string&gt;http://www.jobsite.co.uk/cgi-bin/advsearch?rss_feed=1&amp;amp;daysback=1&amp;amp;jbe_id=33076029&lt;/string&gt;
+  &lt;string&gt;http://www.jobsite.co.uk/cgi-bin/advsearch?rss_feed=1&amp;amp;daysback=1&amp;amp;jbe_id=43459304&lt;/string&gt;
+  &lt;string&gt;http://www.jobsite.co.uk/cgi-bin/advsearch?rss_feed=1&amp;amp;daysback=1&amp;amp;jbe_id=47879865&lt;/string&gt;
+  &lt;string&gt;http://www.jobserve.com/MySearch/F28DE6D13D1400.rss&lt;/string&gt;
+  &lt;string&gt;http://www.jobserve.com/MySearch/1B9BB1BE02F6D5.rss&lt;/string&gt;
+  &lt;string&gt;http://www.jobserve.com/MySearch/D9C2DABB1CC76A9B.rss&lt;/string&gt;
+&lt;/ArrayOfString&gt;</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

@@ -1,11 +1,11 @@
-﻿using System;
+﻿using Interfaces;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Text.RegularExpressions;
 
 namespace JobDatabase
 {
-    public class Job
+    public class Job : IJob
     {
         int iId;                        // Database id, if retrieved from database
         string iSource;                 // CW Jobs, JobServe, etc
@@ -134,7 +134,7 @@ namespace JobDatabase
 
 
         /// <summary>
-        /// Constructor
+        /// Simple constructor: empty Job to be populated by the caller
         /// </summary>
         /// <param name="aSource">CW Jobs, JobServe, etc</param>
         /// <param name="aDate">Date of email in which job occurs</param>
@@ -177,28 +177,35 @@ namespace JobDatabase
         /// <returns></returns>
         private List<string> GetShortLines(string aFullLine)
         {
-            List<string> shortLines = new List<string>();
-            string remaining = aFullLine;
-            while (remaining.Length > 70)
-            {
-                int spacePos = remaining.LastIndexOf(' ', 70);
-                if (spacePos < 0)
-                {
-                    // No suitable space: have to break on 70
-                    shortLines.Add(remaining.Substring(0, 70));
-                    remaining = remaining.Substring(70);
-                }
-                else
-                {
-                    // Break on the space, don't include the space in the shortLines
-                    shortLines.Add(remaining.Substring(0, spacePos));
-                    remaining = remaining.Substring(spacePos + 1);
-                }
-            }
+            var shortLines = new List<string>();
 
-            if (remaining.Length > 0)
+            // Break on any embedded newlines
+            foreach (var unbrokenLine in Regex.Split(aFullLine, "\\n"))
+            //foreach (var unbrokenLine in aFullLine.Split("\\n".ToCharArray()))
             {
-                shortLines.Add(remaining);
+                // Split the initial set of lines after around 70 characters
+                string remaining = unbrokenLine.Trim();
+                while (remaining.Length > 70)
+                {
+                    int spacePos = remaining.LastIndexOf(' ', 70);
+                    if (spacePos < 0)
+                    {
+                        // No suitable space: have to break on 70
+                        shortLines.Add(remaining.Substring(0, 70));
+                        remaining = remaining.Substring(70);
+                    }
+                    else
+                    {
+                        // Break on the space, don't include the space in the shortLines
+                        shortLines.Add(remaining.Substring(0, spacePos));
+                        remaining = remaining.Substring(spacePos + 1);
+                    }
+                }
+
+                if (remaining.Length > 0)
+                {
+                    shortLines.Add(remaining);
+                }
             }
 
             return shortLines;

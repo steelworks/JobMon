@@ -34,5 +34,25 @@ namespace JobMon.Properties {
                 this["WorkingFolder"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
+<ArrayOfString xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
+  <string>http://www.jobsite.co.uk/cgi-bin/advsearch?rss_feed=1&amp;daysback=1&amp;jbe_id=33076029</string>
+  <string>http://www.jobsite.co.uk/cgi-bin/advsearch?rss_feed=1&amp;daysback=1&amp;jbe_id=43459304</string>
+  <string>http://www.jobsite.co.uk/cgi-bin/advsearch?rss_feed=1&amp;daysback=1&amp;jbe_id=47879865</string>
+  <string>http://www.jobserve.com/MySearch/F28DE6D13D1400.rss</string>
+  <string>http://www.jobserve.com/MySearch/1B9BB1BE02F6D5.rss</string>
+  <string>http://www.jobserve.com/MySearch/D9C2DABB1CC76A9B.rss</string>
+</ArrayOfString>")]
+        public global::System.Collections.Specialized.StringCollection RssFeeds {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["RssFeeds"]));
+            }
+            set {
+                this["RssFeeds"] = value;
+            }
+        }
     }
 }

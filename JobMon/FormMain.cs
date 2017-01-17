@@ -7,6 +7,7 @@ using System.Text;
 using System.IO;
 using System.Windows.Forms;
 using JobDatabase;
+using JobRss;
 
 namespace JobMon
 {
@@ -50,6 +51,14 @@ namespace JobMon
                 // No database connection: no processing possible
                 textBoxInfo.Text = string.Format("Job database failed to load\r\n{0}", info);
             }
+
+            // Populate the RSS feeds
+            iRssFeeds = new Dictionary<string, bool>();
+            foreach ( var feed in Properties.Settings.Default.RssFeeds)
+            {
+                // False: we have not yet successfully processed this feed
+                iRssFeeds.Add(feed, false);
+            }
         }
 
         #region Event handlers
@@ -91,6 +100,51 @@ namespace JobMon
 
                 // Updated the stats - update no longer required
                 iStatsUpdateRequired = false;
+            }
+
+            // Process each RSS feed once successfully.
+            // Ideally we would like to process each at regular intervals to check for new jobs,
+            // but we really don't want to process the whole feed again.
+            // We are also processing the feed for one day - if JobMon has not been running for a few days
+            // we should process the feed for intervening days. If JobMon is run multiple times in a day
+            // we should recognise it and avoid processing the same feed.
+            var allFeeds = new List<string>(iRssFeeds.Keys);
+            foreach ( var feed in allFeeds )
+            {
+                // Process the feeds that we have not yet processed successfully
+                if (!iRssFeeds[feed])
+                {
+                    // Crude parsing of the Job source from the RSS URL: the word following www.
+                    var source = "Unknown";
+                    var wwwPos = feed.ToLower().IndexOf("www.");
+                    if (wwwPos >= 0)
+                    {
+                        var domainPos = feed.IndexOf(".", wwwPos + 4);
+                        if ( domainPos > 0)
+                        {
+                            source = feed.Substring(wwwPos + 4, domainPos - wwwPos - 4);
+                        }
+                    }
+                    RssReader rss = new RssReader(source, feed, iJobDb);
+                    string problem = string.Empty;
+                    if (rss.GetJobs(richTextBoxTrace, out problem))
+                    {
+                        textBoxInfo.Text += string.Format("Processed RSS {0}\r\n", feed);
+                        iRssFeeds[feed] = true;         // Successfully processed - don't try this feed again
+                    }
+                    else
+                    {
+                        // Not very good - if we're offline, it will repeatedly trace a failure
+                        textBoxInfo.Text += string.Format("RSS processing error:\r\n{0}", problem);
+                        break;
+                    }
+                }
+
+                if (textBoxInfo.Text.Length > 0)
+                {
+                    textBoxInfo.Select(textBoxInfo.Text.Length - 1, 1);
+                    textBoxInfo.ScrollToCaret();
+                }
             }
 
             // Do another check shortly
@@ -217,5 +271,6 @@ namespace JobMon
         JobDatabase.JobDatabase iJobDb;
         Timer iTimer;
         bool iStatsUpdateRequired;
+        Dictionary<string, bool> iRssFeeds;
     }
 }

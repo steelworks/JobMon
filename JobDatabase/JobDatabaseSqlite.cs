@@ -4,6 +4,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Data;
 using System.Data.SQLite;
+using Interfaces;
 
 namespace JobDatabase
 {
@@ -22,7 +23,7 @@ namespace JobDatabase
         }
     }
 
-    public class JobDatabase
+    public class JobDatabase : IJobProcessor
     {
         // Private data members
         IDbConnection iCon = null;
@@ -80,6 +81,32 @@ namespace JobDatabase
         #region Public methods
 
         /// <summary>
+        /// Return an empty Job to be populated by the caller
+        /// </summary>
+        /// <param name="aSource">CW Jobs, JobServe, etc</param>
+        /// <param name="aDate">Date of email in which job occurs</param>
+        public IJob Create(string aSource, DateTime aDate)
+        {
+            return new Job(aSource, aDate);
+        }
+
+        /// <summary>
+        /// Return a Job populated from the RSS item
+        /// </summary>
+        /// <param name="aSource">CW Jobs, JobServe, etc</param>
+        /// <param name="aItem">RSS item for one job</param>
+        public IJob Create(string aSource, IRssItem aItem)
+        {
+            var job = Create(aSource, aItem.Date) as Job;
+
+            job.Title = aItem.Title;
+            job.Link = aItem.Link;
+            job.AddDescription(aItem.Description);
+
+            return job;
+        }
+
+        /// <summary>
         /// Sanity check to be called after the constructor
         /// </summary>
         /// <param name="aInformation">Statistical information, or diagnostic if not valid</param>
@@ -126,11 +153,11 @@ namespace JobDatabase
         }
 
         /// <summary>
-        /// Create new record in MySQL tables
+        /// Create new record in Sqlite tables
         /// </summary>
         /// <param name="aJob"></param>
         /// <returns></returns>
-        public bool Add(Job aJob)
+        public bool Add(IJob aJob)
         {
             // Update the Jobs table
             string sql = string.Format("INSERT INTO jobs " +
@@ -199,7 +226,7 @@ namespace JobDatabase
         /// <param name="aId">Id of existing job in database</param>
         /// <param name="aJob">New job details to be merged in</param>
         /// <returns></returns>
-        public bool Merge(Job aJob, int aId, DateTime aLastSeen)
+        public bool Merge(IJob aJob, int aId, DateTime aLastSeen)
         {
             // We increment the count in the existing job in the database only if it was
             // last seen on a previous day - ie, count the number of days on which the job
@@ -226,15 +253,12 @@ namespace JobDatabase
         /// <param name="aLastSeen">Date last seen of matching job</param>
         /// <param name="aError">Flag set if "no match" is due to error</param>
         /// <returns>True if match found, false if no match found</returns>
-        public bool AlreadySeen(Job aJob, out int aExistingId, out DateTime aLastSeen,
+        public bool AlreadySeen(IJob aJob, out int aExistingId, out DateTime aLastSeen,
                                 out bool aError)
         {
             aExistingId = -1;
             aLastSeen = DateTime.Now;
             aError = false;
-
-            // Should try matching the link URL - if this matches, it is definitely the
-            // same job!
 
             // Basic match on Jobs table
             string basicQuery = string.Format("SELECT id, last_posting, link FROM jobs " +
@@ -263,6 +287,7 @@ namespace JobDatabase
                         string existingLink = existingJob["link"].ToString();
                         if (aJob.Link == existingLink)
                         {
+                            // URL is a definitive match: would like to test this regardless of title, salary and location
                             QueryEnd();
                             return true;
                         }
@@ -310,7 +335,7 @@ namespace JobDatabase
                     }
                     else
                     {
-                        // MySQL query failure: details are in the Diagnostic
+                        // Database query failure: details are in the Diagnostic
                         aError = true;
                         return false;
                     }
@@ -340,7 +365,7 @@ namespace JobDatabase
         /// <param name="aBadJob"></param>
         /// <param name="aBadLocation"></param>
         /// <returns>True if job is to be filtered out (ie, unwanted)</returns>
-        public bool IsFiltered(Job aJob, out bool aBadJob, out bool aBadLocation)
+        public bool IsFiltered(IJob aJob, out bool aBadJob, out bool aBadLocation)
         {
             aBadJob = false;
             aBadLocation = false;

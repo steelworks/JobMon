@@ -213,9 +213,17 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Interfaces\Interfaces.csproj">
+      <Project>{b2bfbe2c-b8e8-4f47-97e5-70c543198a3a}</Project>
+      <Name>Interfaces</Name>
+    </ProjectReference>
     <ProjectReference Include="..\JobDatabase\JobDatabase.csproj">
       <Project>{65B398AC-2BCD-4C87-A99A-1DF10ABBE664}</Project>
       <Name>JobDatabase</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\JobRss\JobRss.csproj">
+      <Project>{edfdfe87-4eb1-45dd-b796-9dddb58929fb}</Project>
+      <Name>JobRss</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
