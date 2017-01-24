@@ -32,6 +32,8 @@ namespace JobMon
 
         private void PopulateForm()
         {
+            jobProgress.Minimum = 0;
+            jobProgress.Maximum = iJobs.Count;
             if (iCurrentJob < iJobs.Count)
             {
                 Job thisJob = iJobs[iCurrentJob];
@@ -81,6 +83,7 @@ namespace JobMon
                 interestingCheckBox.Checked = thisJob.Interesting;
 
                 jobCountLabel.Text = string.Format("Job {0} of {1}", iCurrentJob+1, iJobs.Count);
+                jobProgress.Value = iCurrentJob + 1;
 
                 // Populate the web browser control with the details.
                 // This may take a second or two, so refresh the form first.

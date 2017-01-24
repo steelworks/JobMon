@@ -38,7 +38,6 @@
             this.iInterestingRadioButton = new System.Windows.Forms.RadioButton();
             this.iNewRadioButton = new System.Windows.Forms.RadioButton();
             this.jobWebBrowser = new System.Windows.Forms.WebBrowser();
-            this.bottomPanel = new System.Windows.Forms.Panel();
             this.interestingCheckBox = new System.Windows.Forms.CheckBox();
             this.nextButton = new System.Windows.Forms.Button();
             this.prevButton = new System.Windows.Forms.Button();
@@ -48,9 +47,9 @@
             this.goodLocButton = new System.Windows.Forms.Button();
             this.maintenanceButton = new System.Windows.Forms.Button();
             this.summaryRichTextBox = new System.Windows.Forms.RichTextBox();
+            this.jobProgress = new System.Windows.Forms.ProgressBar();
             this.mainTableLayoutPanel.SuspendLayout();
             this.topPanel.SuspendLayout();
-            this.bottomPanel.SuspendLayout();
             this.buttonPanel.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -58,9 +57,9 @@
             // 
             this.exitButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.exitButton.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.exitButton.Location = new System.Drawing.Point(778, 505);
+            this.exitButton.Location = new System.Drawing.Point(3, 218);
             this.exitButton.Name = "exitButton";
-            this.exitButton.Size = new System.Drawing.Size(75, 23);
+            this.exitButton.Size = new System.Drawing.Size(88, 23);
             this.exitButton.TabIndex = 1;
             this.exitButton.Text = "Exit";
             this.exitButton.UseVisualStyleBackColor = true;
@@ -87,7 +86,7 @@
             // 
             this.jobCountLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.jobCountLabel.AutoSize = true;
-            this.jobCountLabel.Location = new System.Drawing.Point(802, 0);
+            this.jobCountLabel.Location = new System.Drawing.Point(22, 155);
             this.jobCountLabel.Name = "jobCountLabel";
             this.jobCountLabel.Size = new System.Drawing.Size(51, 13);
             this.jobCountLabel.TabIndex = 4;
@@ -98,21 +97,17 @@
             this.mainTableLayoutPanel.ColumnCount = 2;
             this.mainTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.mainTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
-            this.mainTableLayoutPanel.Controls.Add(this.jobCountLabel, 1, 0);
-            this.mainTableLayoutPanel.Controls.Add(this.exitButton, 1, 3);
             this.mainTableLayoutPanel.Controls.Add(this.topPanel, 0, 0);
             this.mainTableLayoutPanel.Controls.Add(this.jobWebBrowser, 0, 2);
-            this.mainTableLayoutPanel.Controls.Add(this.bottomPanel, 0, 3);
             this.mainTableLayoutPanel.Controls.Add(this.buttonPanel, 1, 1);
             this.mainTableLayoutPanel.Controls.Add(this.summaryRichTextBox, 0, 1);
             this.mainTableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mainTableLayoutPanel.Location = new System.Drawing.Point(0, 0);
             this.mainTableLayoutPanel.Name = "mainTableLayoutPanel";
-            this.mainTableLayoutPanel.RowCount = 4;
+            this.mainTableLayoutPanel.RowCount = 3;
             this.mainTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.mainTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 250F));
             this.mainTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.mainTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.mainTableLayoutPanel.Size = new System.Drawing.Size(856, 531);
             this.mainTableLayoutPanel.TabIndex = 5;
             // 
@@ -174,24 +169,13 @@
             this.jobWebBrowser.MinimumSize = new System.Drawing.Size(20, 20);
             this.jobWebBrowser.Name = "jobWebBrowser";
             this.jobWebBrowser.ScriptErrorsSuppressed = true;
-            this.jobWebBrowser.Size = new System.Drawing.Size(850, 215);
+            this.jobWebBrowser.Size = new System.Drawing.Size(850, 245);
             this.jobWebBrowser.TabIndex = 6;
-            // 
-            // bottomPanel
-            // 
-            this.bottomPanel.Controls.Add(this.interestingCheckBox);
-            this.bottomPanel.Controls.Add(this.nextButton);
-            this.bottomPanel.Controls.Add(this.prevButton);
-            this.bottomPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.bottomPanel.Location = new System.Drawing.Point(3, 504);
-            this.bottomPanel.Name = "bottomPanel";
-            this.bottomPanel.Size = new System.Drawing.Size(750, 24);
-            this.bottomPanel.TabIndex = 7;
             // 
             // interestingCheckBox
             // 
             this.interestingCheckBox.AutoSize = true;
-            this.interestingCheckBox.Location = new System.Drawing.Point(182, 4);
+            this.interestingCheckBox.Location = new System.Drawing.Point(4, 135);
             this.interestingCheckBox.Name = "interestingCheckBox";
             this.interestingCheckBox.Size = new System.Drawing.Size(75, 17);
             this.interestingCheckBox.TabIndex = 2;
@@ -201,27 +185,33 @@
             // 
             // nextButton
             // 
-            this.nextButton.Location = new System.Drawing.Point(87, 1);
+            this.nextButton.Location = new System.Drawing.Point(54, 189);
             this.nextButton.Name = "nextButton";
-            this.nextButton.Size = new System.Drawing.Size(75, 23);
+            this.nextButton.Size = new System.Drawing.Size(37, 23);
             this.nextButton.TabIndex = 1;
-            this.nextButton.Text = "Next";
+            this.nextButton.Text = ">>";
             this.nextButton.UseVisualStyleBackColor = true;
             this.nextButton.Click += new System.EventHandler(this.nextButton_Click);
             // 
             // prevButton
             // 
-            this.prevButton.Location = new System.Drawing.Point(6, 1);
+            this.prevButton.Location = new System.Drawing.Point(3, 189);
             this.prevButton.Name = "prevButton";
-            this.prevButton.Size = new System.Drawing.Size(75, 23);
+            this.prevButton.Size = new System.Drawing.Size(37, 23);
             this.prevButton.TabIndex = 0;
-            this.prevButton.Text = "Prev";
+            this.prevButton.Text = "<<";
             this.prevButton.UseVisualStyleBackColor = true;
             this.prevButton.Click += new System.EventHandler(this.prevButton_Click);
             // 
             // buttonPanel
             // 
+            this.buttonPanel.Controls.Add(this.interestingCheckBox);
+            this.buttonPanel.Controls.Add(this.jobCountLabel);
+            this.buttonPanel.Controls.Add(this.jobProgress);
             this.buttonPanel.Controls.Add(this.badLocButton);
+            this.buttonPanel.Controls.Add(this.nextButton);
+            this.buttonPanel.Controls.Add(this.exitButton);
+            this.buttonPanel.Controls.Add(this.prevButton);
             this.buttonPanel.Controls.Add(this.badJobButton);
             this.buttonPanel.Controls.Add(this.goodLocButton);
             this.buttonPanel.Controls.Add(this.maintenanceButton);
@@ -281,6 +271,13 @@
             this.summaryRichTextBox.TabIndex = 10;
             this.summaryRichTextBox.Text = "";
             // 
+            // jobProgress
+            // 
+            this.jobProgress.Location = new System.Drawing.Point(4, 171);
+            this.jobProgress.Name = "jobProgress";
+            this.jobProgress.Size = new System.Drawing.Size(87, 12);
+            this.jobProgress.TabIndex = 4;
+            // 
             // DetailsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -290,12 +287,10 @@
             this.Name = "DetailsForm";
             this.Text = "details";
             this.mainTableLayoutPanel.ResumeLayout(false);
-            this.mainTableLayoutPanel.PerformLayout();
             this.topPanel.ResumeLayout(false);
             this.topPanel.PerformLayout();
-            this.bottomPanel.ResumeLayout(false);
-            this.bottomPanel.PerformLayout();
             this.buttonPanel.ResumeLayout(false);
+            this.buttonPanel.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -309,7 +304,6 @@
         private System.Windows.Forms.TableLayoutPanel mainTableLayoutPanel;
         private System.Windows.Forms.Panel topPanel;
         private System.Windows.Forms.WebBrowser jobWebBrowser;
-        private System.Windows.Forms.Panel bottomPanel;
         private System.Windows.Forms.CheckBox interestingCheckBox;
         private System.Windows.Forms.Button nextButton;
         private System.Windows.Forms.Button prevButton;
@@ -322,6 +316,6 @@
         private System.Windows.Forms.RadioButton iAllRadioButton;
         private System.Windows.Forms.RadioButton iInterestingRadioButton;
         private System.Windows.Forms.RadioButton iNewRadioButton;
-
+        private System.Windows.Forms.ProgressBar jobProgress;
     }
 }
