@@ -5,6 +5,9 @@ JobMon is a personal project designed to run in the environment on my computer. 
 
 There are a number of upgrades that I would like to do - if only I had time. WinForms is old - the software should be WPF or web-based. It is ugly requiring an email client that will helpfully deposit job emails as text into a folder - an RSS connection to the job site would be better (assuming that the job site supports RSS). Unfortunately (I do not know how to get around this one), each supported job site requires coding to help JobMon parse the job emails, and every so often, the job sites change the format of their emails (or even use several different styles interchangeably within their job emails) - it becomes necessary to revise the code when the format of the emails is changed.
 
+## Rev_1_037:
+Parse the salary and location for JobServe RSS jobs (in Rev_1_036, RSS jobs do not show salary or location).
+
 ## Rev_1_036:
 Implementation of RSS reader alternative to job emails. These are configured in the JobMon settings.
 

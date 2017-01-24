@@ -125,7 +125,7 @@ namespace JobMon
                             source = feed.Substring(wwwPos + 4, domainPos - wwwPos - 4);
                         }
                     }
-                    RssReader rss = new RssReader(source, feed, iJobDb);
+                    RssReader rss = RssReaderFactory.Construct(source, feed, iJobDb);
                     string problem = string.Empty;
                     if (rss.GetJobs(richTextBoxTrace, out problem))
                     {

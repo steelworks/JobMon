@@ -103,6 +103,12 @@ namespace JobDatabase
             job.Link = aItem.Link;
             job.AddDescription(aItem.Description);
 
+            if ( aItem.Extended != null)
+            {
+                job.Salary = aItem.Extended.Salary;
+                job.Location = aItem.Extended.Location;
+            }
+
             return job;
         }
 

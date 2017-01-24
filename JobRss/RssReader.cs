@@ -41,7 +41,7 @@ namespace JobRss
 
             try
             {
-                foreach ( var rssJob in ParseRssFile())
+                foreach ( var rssJob in ParseRssFile(iFeed))
                 {
                     // Test whether the job is to be filtered out (of no interest)
                     bool badJob = false;
@@ -137,18 +137,18 @@ namespace JobRss
             System.Windows.Forms.Application.DoEvents();
         }
 
-        private IEnumerable<RssItem> ParseRssFile()
+        protected virtual IEnumerable<RssItem> ParseRssFile(string aFeed)
         {
             XmlDocument rssXmlDoc = new XmlDocument();
 
             // Load the RSS file from the RSS URL
             try
             {
-                rssXmlDoc.Load(iFeed);
+                rssXmlDoc.Load(aFeed);
             }
             catch
             {
-                throw new Exception("Cannot access RSS feed " + iFeed);
+                throw new Exception("Cannot access RSS feed " + aFeed);
             }
 
             // Parse the Items in the RSS file
@@ -187,7 +187,7 @@ namespace JobRss
 
 
         // Strip HTML, leaving plain text
-        private string StripHtml(string aLine)
+        protected string StripHtml(string aLine)
         {
             // Remove tags
             string tag = @"(<[^<>]*>)";

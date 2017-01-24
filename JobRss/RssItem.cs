@@ -16,6 +16,7 @@ namespace JobRss
         public string Link { get; set; }
         public string Description { get; set; }
         public DateTime Date { get; set; }
+        public RssExtendedInformation Extended { get; set; }
 
         /// <summary>
         /// Format the RSS item as HTML
