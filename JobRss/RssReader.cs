@@ -2,7 +2,9 @@
 using SpeechLib;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -146,9 +148,9 @@ namespace JobRss
             {
                 rssXmlDoc.Load(aFeed);
             }
-            catch
+            catch (Exception ex)
             {
-                throw new Exception("Cannot access RSS feed " + aFeed);
+                throw new Exception("Cannot access RSS feed " + aFeed + ": " + ex.Message);
             }
 
             // Parse the Items in the RSS file

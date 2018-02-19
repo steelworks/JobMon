@@ -53,11 +53,11 @@ namespace JobMon
             }
 
             // Populate the RSS feeds
-            iRssFeeds = new Dictionary<string, bool>();
+            iRssFeeds = new Dictionary<string, DateTime>();
             foreach ( var feed in Properties.Settings.Default.RssFeeds)
             {
-                // False: we have not yet successfully processed this feed
-                iRssFeeds.Add(feed, false);
+                // We can process this feed any time starting from now
+                iRssFeeds.Add(feed, DateTime.Now);
             }
         }
 
@@ -88,20 +88,6 @@ namespace JobMon
                 iStatsUpdateRequired = true;
             }
 
-            // Update the info panel - only when required
-            // (otherwise ShowJobStats queries the database needlessly)
-            if ( iStatsUpdateRequired )
-            {
-                textBoxInfo.Select(textBoxInfo.Text.Length - 1, 1);
-                textBoxInfo.ScrollToCaret();
-
-                // Update the job counts in the top panel of the main form
-                ShowJobStats();
-
-                // Updated the stats - update no longer required
-                iStatsUpdateRequired = false;
-            }
-
             // Process each RSS feed once successfully.
             // Ideally we would like to process each at regular intervals to check for new jobs,
             // but we really don't want to process the whole feed again.
@@ -111,8 +97,8 @@ namespace JobMon
             var allFeeds = new List<string>(iRssFeeds.Keys);
             foreach ( var feed in allFeeds )
             {
-                // Process the feeds that we have not yet processed successfully
-                if (!iRssFeeds[feed])
+                // Process the feeds that are currently scheduled
+                if (iRssFeeds[feed] < DateTime.Now)
                 {
                     // Crude parsing of the Job source from the RSS URL: the word following www.
                     var source = "Unknown";
@@ -130,14 +116,30 @@ namespace JobMon
                     if (rss.GetJobs(richTextBoxTrace, out problem))
                     {
                         textBoxInfo.Text += string.Format("Processed RSS {0}\r\n", feed);
-                        iRssFeeds[feed] = true;         // Successfully processed - don't try this feed again
+
+                        // Successfully processed - don't try again for 12 hours
+                        iRssFeeds[feed] = DateTime.Now + TimeSpan.FromHours(12);         
                     }
                     else
                     {
-                        // Not very good - if we're offline, it will repeatedly trace a failure
+                        // Can't access the RSS feed, we could be offline. Try again in an hour.
                         textBoxInfo.Text += string.Format("RSS processing error:\r\n{0}", problem);
-                        break;
+                        iRssFeeds[feed] = DateTime.Now + TimeSpan.FromHours(1);
                     }
+                }
+
+                // Update the info panel - only when required
+                // (otherwise ShowJobStats queries the database needlessly)
+                if (iStatsUpdateRequired)
+                {
+                    textBoxInfo.Select(textBoxInfo.Text.Length - 1, 1);
+                    textBoxInfo.ScrollToCaret();
+
+                    // Update the job counts in the top panel of the main form
+                    ShowJobStats();
+
+                    // Updated the stats - update no longer required
+                    iStatsUpdateRequired = false;
                 }
 
                 if (textBoxInfo.Text.Length > 0)
@@ -271,6 +273,6 @@ namespace JobMon
         JobDatabase.JobDatabase iJobDb;
         Timer iTimer;
         bool iStatsUpdateRequired;
-        Dictionary<string, bool> iRssFeeds;
+        Dictionary<string, DateTime> iRssFeeds;
     }
 }

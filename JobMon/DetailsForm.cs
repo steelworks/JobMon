@@ -68,6 +68,9 @@ namespace JobMon
                 summaryRichTextBox.SelectAll();
                 summaryRichTextBox.SelectionColor = System.Drawing.Color.Black;
 
+                // Having selected all, ensure that we show the top of the selection (discard any previous scroll position)
+                summaryRichTextBox.ScrollToCaret();
+
                 foreach (FilterResult redWord in redWords)
                 {
                     summaryRichTextBox.Select(redWord.Index, redWord.Length);

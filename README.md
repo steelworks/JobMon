@@ -5,6 +5,11 @@ JobMon is a personal project designed to run in the environment on my computer. 
 
 There are a number of upgrades that I would like to do - if only I had time. WinForms is old - the software should be WPF or web-based. It is ugly requiring an email client that will helpfully deposit job emails as text into a folder - an RSS connection to the job site would be better (assuming that the job site supports RSS). Unfortunately (I do not know how to get around this one), each supported job site requires coding to help JobMon parse the job emails, and every so often, the job sites change the format of their emails (or even use several different styles interchangeably within their job emails) - it becomes necessary to revise the code when the format of the emails is changed.
 
+## Rev_1_039
+1. Bug-fix: when scrolling down through job summary and then stepping onto the next job, the job summary was remaining at that scroll position. Now ensure that top of job summary is displayed when stepping between jobs.
+2. To cater for recovery from faulty RSS feeds, there is now a delay of 1 hour between retries.
+3. Bug-fix: the count of new jobs on the main form did not take into account any RSS jobs just processed.
+
 ## Rev_1_038:
 Rework to the reporting UI. I found the navigation buttons at the bottom of the form problematic when I made the form fill the height of the screen and I had the Windows taskbar on autohide - too easy to make the taskbar pop up when I wanted to click a button. The buttons are now in a single panel on the form.
 
